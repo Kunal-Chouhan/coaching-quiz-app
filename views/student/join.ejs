@@ -1,0 +1,42 @@
+<%- include('../partials/header') %>
+
+<div class="ticket-hero">
+  <h1>Enter the room.</h1>
+  <p class="lede">Your tutor has a code for this test. Type it in below to get started — no account needed.</p>
+
+  <div class="ticket">
+    <% if (error) { %>
+      <div class="alert alert-danger"><%= error %></div>
+    <% } %>
+
+    <form method="POST" action="/quizzes/join">
+      <div class="ticket-label">Test code</div>
+      <input
+        type="text"
+        name="accessCode"
+        class="code-input"
+        placeholder="AB12CD"
+        maxlength="6"
+        autocomplete="off"
+        autocapitalize="characters"
+        value="<%= codeValue %>"
+        required
+        autofocus
+      >
+
+      <div class="ticket-perforation"></div>
+
+      <button type="submit" class="btn btn-gold btn-lg w-100">Enter test hall</button>
+    </form>
+  </div>
+
+  <p class="ticket-footnote">Tutoring the class instead? <a href="/login">Log in here</a> to build and share a quiz.</p>
+</div>
+
+<script>
+  document.querySelector('.code-input').addEventListener('input', function (e) {
+    e.target.value = e.target.value.toUpperCase();
+  });
+</script>
+
+<%- include('../partials/footer') %>

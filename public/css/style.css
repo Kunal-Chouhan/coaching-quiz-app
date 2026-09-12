@@ -1,0 +1,291 @@
+/* ==========================================================================
+   Design tokens
+   Subject: a coaching institute's quiz platform. Tutors issue an access
+   code; students redeem it like an admission ticket into a timed test.
+   ========================================================================== */
+:root {
+  --ink: #14213D;
+  --ink-soft: #1F2E52;
+  --paper: #F3F4F6;
+  --surface: #FFFFFF;
+  --gold: #C4840A;
+  --gold-dark: #9C6A08;
+  --success: #1F9D55;
+  --danger: #C1432E;
+  --slate: #3D4451;
+  --slate-soft: #6B7280;
+  --border: #DADFE3;
+  --radius: 10px;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  background-color: var(--paper);
+  color: var(--slate);
+  font-family: 'IBM Plex Sans', -apple-system, BlinkMacSystemFont, sans-serif;
+  font-size: 0.98rem;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  font-family: 'Fraunces', Georgia, serif;
+  color: var(--ink);
+  font-weight: 600;
+  letter-spacing: -0.01em;
+}
+
+a {
+  color: var(--ink);
+}
+a:hover {
+  color: var(--gold-dark);
+}
+
+/* ---- Navbar ------------------------------------------------------------ */
+.navbar.bg-dark {
+  background-color: var(--ink) !important;
+  border-bottom: 3px solid var(--gold);
+}
+.navbar-brand {
+  font-family: 'Fraunces', Georgia, serif;
+  font-weight: 600;
+  letter-spacing: -0.01em;
+}
+
+/* ---- Buttons ------------------------------------------------------------ */
+.btn {
+  border-radius: 8px;
+  font-weight: 500;
+}
+.btn-primary {
+  background-color: var(--ink);
+  border-color: var(--ink);
+}
+.btn-primary:hover, .btn-primary:focus {
+  background-color: var(--ink-soft);
+  border-color: var(--ink-soft);
+}
+.btn-outline-primary {
+  color: var(--ink);
+  border-color: var(--ink);
+}
+.btn-outline-primary:hover {
+  background-color: var(--ink);
+  border-color: var(--ink);
+}
+.btn-success {
+  background-color: var(--success);
+  border-color: var(--success);
+}
+.btn-outline-success {
+  color: var(--success);
+  border-color: var(--success);
+}
+.btn-outline-success:hover {
+  background-color: var(--success);
+  border-color: var(--success);
+}
+.btn-outline-danger {
+  color: var(--danger);
+  border-color: var(--danger);
+}
+.btn-outline-danger:hover {
+  background-color: var(--danger);
+  border-color: var(--danger);
+}
+.btn-gold {
+  background-color: var(--gold);
+  border-color: var(--gold);
+  color: #fff;
+}
+.btn-gold:hover {
+  background-color: var(--gold-dark);
+  border-color: var(--gold-dark);
+  color: #fff;
+}
+
+/* ---- Cards / tables ------------------------------------------------------ */
+.card {
+  border-radius: var(--radius);
+  border: 1px solid var(--border);
+}
+
+.list-group-item {
+  cursor: pointer;
+}
+.list-group-item:hover {
+  background-color: #F1F0FB;
+}
+
+.table thead th {
+  color: var(--slate-soft);
+  font-weight: 600;
+  font-size: 0.82rem;
+  text-transform: none;
+  border-bottom: 2px solid var(--border);
+}
+
+/* Stat cards on dashboard/results: a quiet accent bar instead of a shadow,
+   so they don't read as the same rounded-card kit as everything else. */
+.stat-card {
+  border: 1px solid var(--border);
+  border-left: 4px solid var(--gold);
+  border-radius: 6px;
+  background: var(--surface);
+  padding: 1.1rem 1.25rem;
+}
+.stat-card h6 {
+  font-family: 'IBM Plex Sans', sans-serif;
+  color: var(--slate-soft);
+  font-weight: 500;
+  font-size: 0.85rem;
+  margin-bottom: 0.35rem;
+}
+.stat-card .stat-value {
+  font-family: 'Fraunces', Georgia, serif;
+  font-size: 2.1rem;
+  color: var(--ink);
+  font-weight: 600;
+  line-height: 1;
+}
+
+/* ---- Access-code chip (tutor's quiz list) -------------------------------- */
+.code-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 0.92rem;
+  letter-spacing: 0.06em;
+  background: var(--paper);
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  padding: 0.2rem 0.55rem;
+  color: var(--ink);
+}
+.code-chip button {
+  border: none;
+  background: none;
+  padding: 0;
+  color: var(--slate-soft);
+  font-size: 0.85rem;
+  line-height: 1;
+  cursor: pointer;
+}
+.code-chip button:hover {
+  color: var(--gold-dark);
+}
+
+/* ==========================================================================
+   The admit ticket - student join page
+   ========================================================================== */
+.ticket-hero {
+  max-width: 640px;
+  margin: 3rem auto 0;
+  text-align: center;
+}
+.ticket-hero h1 {
+  font-size: 2.4rem;
+  margin-bottom: 0.5rem;
+}
+.ticket-hero p.lede {
+  color: var(--slate-soft);
+  font-size: 1.05rem;
+  max-width: 34ch;
+  margin: 0 auto 2.25rem;
+}
+
+.ticket {
+  position: relative;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  padding: 2.25rem 2rem 2rem;
+  box-shadow: 0 18px 40px -20px rgba(20, 33, 61, 0.35);
+  animation: ticket-in 0.5s cubic-bezier(0.2, 0.7, 0.2, 1) both;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .ticket {
+    animation: none;
+  }
+}
+
+@keyframes ticket-in {
+  from { opacity: 0; transform: translateY(10px) scale(0.98); }
+  to { opacity: 1; transform: translateY(0) scale(1); }
+}
+
+/* Perforated tear-line beneath the code field, like an admission stub. */
+.ticket-perforation {
+  position: relative;
+  border-top: 2px dashed var(--border);
+  margin: 1.5rem 0 1.5rem;
+}
+.ticket-perforation::before,
+.ticket-perforation::after {
+  content: '';
+  position: absolute;
+  top: -11px;
+  width: 22px;
+  height: 22px;
+  background: var(--paper);
+  border-radius: 50%;
+  border: 1px solid var(--border);
+}
+.ticket-perforation::before { left: -2.9rem; }
+.ticket-perforation::after { right: -2.9rem; }
+
+.ticket-label {
+  font-size: 0.85rem;
+  color: var(--slate-soft);
+  margin-bottom: 0.6rem;
+  text-align: left;
+}
+
+.code-input {
+  width: 100%;
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 1.9rem;
+  letter-spacing: 0.5rem;
+  text-align: center;
+  text-transform: uppercase;
+  padding: 0.65rem 0.5rem;
+  border: 2px solid var(--border);
+  border-radius: 8px;
+  color: var(--ink);
+  background: var(--paper);
+}
+.code-input:focus {
+  outline: none;
+  border-color: var(--gold);
+  background: var(--surface);
+}
+.code-input::placeholder {
+  color: #C3C9D1;
+  letter-spacing: 0.5rem;
+}
+
+.name-input {
+  text-align: left;
+}
+
+.ticket-footnote {
+  margin-top: 1.75rem;
+  font-size: 0.88rem;
+  color: var(--slate-soft);
+}
+
+/* ---- Timer / attempt page (kept from original, tokens applied) ---------- */
+#timerDisplay.text-danger {
+  animation: pulse 1s infinite;
+}
+@keyframes pulse {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.4; }
+}
+.question-block.border-danger {
+  border-width: 2px;
+}

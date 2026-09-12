@@ -1,0 +1,61 @@
+<%- include('../partials/header') %>
+
+<div class="row">
+  <div class="col-lg-9">
+    <div class="d-flex justify-content-between align-items-center mb-3">
+      <h4 class="mb-0"><%= quiz.title %></h4>
+      <div class="border rounded px-3 py-2 bg-light">
+        ⏱ Time Left: <span id="timerDisplay" class="fw-bold fs-5">--:--</span>
+      </div>
+    </div>
+
+    <form id="attemptForm" method="POST" action="/quizzes/<%= quiz._id %>/submit">
+      <input type="hidden" name="studentName" value="<%= studentName %>">
+      <input type="hidden" name="startedAt" value="<%= startedAt %>">
+
+      <% quiz.questions.forEach((q, idx) => { %>
+        <div class="card mb-3 question-panel" data-index="<%= idx %>" style="<%= idx === 0 ? '' : 'display:none;' %>">
+          <div class="card-body">
+            <h5 class="card-title">Q<%= idx + 1 %>. <%= q.questionText %></h5>
+            <div class="list-group mt-3">
+              <% q.options.forEach((opt, optIdx) => { %>
+                <label class="list-group-item">
+                  <input class="form-check-input me-2 answer-radio"
+                         type="radio"
+                         name="answers[<%= q._id %>]"
+                         value="<%= optIdx %>"
+                         data-qindex="<%= idx %>">
+                  <%= opt %>
+                </label>
+              <% }) %>
+            </div>
+          </div>
+        </div>
+      <% }) %>
+
+      <div class="d-flex justify-content-between mt-3">
+        <button type="button" id="prevBtn" class="btn btn-outline-secondary">← Previous</button>
+        <button type="button" id="nextBtn" class="btn btn-outline-primary">Next →</button>
+        <button type="submit" id="submitBtn" class="btn btn-success" style="display:none;">Submit Quiz</button>
+      </div>
+    </form>
+  </div>
+
+  <div class="col-lg-3">
+    <div class="card shadow-sm sticky-top" style="top: 80px;">
+      <div class="card-body">
+        <h6>Questions</h6>
+        <div id="questionPalette" class="d-flex flex-wrap gap-2 mb-3"></div>
+        <button type="button" id="submitFromPaletteBtn" class="btn btn-success w-100">Submit Quiz</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+  const QUIZ_DURATION_MINUTES = <%= quiz.duration %>;
+  const TOTAL_QUESTIONS = <%= quiz.questions.length %>;
+</script>
+<script src="/js/timer.js"></script>
+
+<%- include('../partials/footer') %>

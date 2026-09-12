@@ -1,0 +1,61 @@
+<%- include('../partials/header') %>
+
+<div class="mb-3">
+  <a href="/tutor/quizzes" class="btn btn-sm btn-link ps-0">← Back to My Quizzes</a>
+</div>
+
+<h2 class="mb-1"><%= quiz.title %> — Results</h2>
+<p class="text-muted"><%= quiz.questions.length %> questions · <%= quiz.duration %> min · <%= attempts.length %> attempt<%= attempts.length === 1 ? '' : 's' %></p>
+
+<div class="row g-3 mb-4">
+  <div class="col-md-4">
+    <div class="stat-card">
+      <h6>Total Attempts</h6>
+      <div class="stat-value"><%= attempts.length %></div>
+    </div>
+  </div>
+  <div class="col-md-4">
+    <div class="stat-card">
+      <h6>Average Score</h6>
+      <div class="stat-value"><%= avgPercentage %>%</div>
+    </div>
+  </div>
+</div>
+
+<% if (attempts.length === 0) { %>
+  <div class="alert alert-light border">No students have attempted this quiz yet.</div>
+<% } else { %>
+  <div class="table-responsive">
+    <table class="table table-striped align-middle">
+      <thead>
+        <tr>
+          <th>Student</th>
+          <th>Score</th>
+          <th>Percentage</th>
+          <th>Time Taken</th>
+          <th>Submitted At</th>
+        </tr>
+      </thead>
+      <tbody>
+        <% attempts.forEach(a => {
+          const mins = Math.floor(a.timeTaken / 60);
+          const secs = a.timeTaken % 60;
+        %>
+          <tr>
+            <td><%= a.studentName %></td>
+            <td><%= a.score %>/<%= quiz.questions.length %></td>
+            <td>
+              <span class="badge <%= a.percentage >= 60 ? 'bg-success' : 'bg-danger' %>">
+                <%= a.percentage %>%
+              </span>
+            </td>
+            <td><%= mins %>:<%= String(secs).padStart(2, '0') %></td>
+            <td><%= new Date(a.submittedAt).toLocaleString() %></td>
+          </tr>
+        <% }) %>
+      </tbody>
+    </table>
+  </div>
+<% } %>
+
+<%- include('../partials/footer') %>

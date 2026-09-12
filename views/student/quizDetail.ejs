@@ -1,0 +1,26 @@
+<%- include('../partials/header') %>
+
+<div class="ticket-hero">
+  <div class="ticket" style="text-align: left;">
+    <h3 style="margin-bottom: 0.25rem;"><%= quiz.title %></h3>
+    <p class="text-muted"><%= quiz.description %></p>
+    <ul class="list-unstyled mb-0" style="color: var(--slate-soft);">
+      <li><%= quiz.questions.length %> questions</li>
+      <li><%= quiz.duration %> minutes</li>
+    </ul>
+
+    <div class="ticket-perforation"></div>
+
+    <% if (error) { %>
+      <div class="alert alert-danger"><%= error %></div>
+    <% } %>
+
+    <form method="POST" action="/quizzes/<%= quiz._id %>/attempt">
+      <div class="ticket-label">Your name</div>
+      <input type="text" name="studentName" class="form-control name-input mb-3" required autofocus>
+      <button type="submit" class="btn btn-gold btn-lg w-100">Start quiz</button>
+    </form>
+  </div>
+</div>
+
+<%- include('../partials/footer') %>

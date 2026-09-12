@@ -1,0 +1,62 @@
+<%- include('../partials/header') %>
+
+<div class="row justify-content-center">
+  <div class="col-md-7">
+    <h2 class="mb-1">Generate Quiz with AI</h2>
+    <p class="text-muted mb-4">Give a topic, upload an image (textbook page, notes, diagram), or both — Gemini will draft the questions. You'll review and edit everything before it's saved.</p>
+
+    <% if (error) { %>
+      <div class="alert alert-danger"><%= error %></div>
+    <% } %>
+
+    <div class="card shadow-sm">
+      <div class="card-body p-4">
+        <form method="POST" action="/tutor/quizzes/generate" enctype="multipart/form-data">
+          <div class="mb-3">
+            <label class="form-label">Topic</label>
+            <textarea name="topic" class="form-control" rows="2"
+                      placeholder="e.g. Newton's laws of motion, or: Chapter 4 - Photosynthesis"><%= formValues.topic %></textarea>
+            <div class="form-text">Optional if you're uploading an image, but a short topic hint always helps.</div>
+          </div>
+
+          <div class="mb-3">
+            <label class="form-label">Or upload an image</label>
+            <input type="file" name="image" class="form-control" accept="image/png,image/jpeg,image/webp,image/gif">
+            <div class="form-text">A photo of a textbook page, notes, or a diagram. JPG, PNG, WEBP, or GIF, up to 10 MB.</div>
+          </div>
+
+          <div class="row">
+            <div class="col-md-6 mb-3">
+              <label class="form-label">Number of questions</label>
+              <input type="number" name="numQuestions" class="form-control" min="1" max="25" value="<%= formValues.numQuestions %>">
+            </div>
+            <div class="col-md-6 mb-3">
+              <label class="form-label">Difficulty</label>
+              <select name="difficulty" class="form-select">
+                <option value="easy" <%= formValues.difficulty === 'easy' ? 'selected' : '' %>>Easy</option>
+                <option value="medium" <%= formValues.difficulty === 'medium' ? 'selected' : '' %>>Medium</option>
+                <option value="hard" <%= formValues.difficulty === 'hard' ? 'selected' : '' %>>Hard</option>
+              </select>
+            </div>
+          </div>
+
+          <button type="submit" id="generateBtn" class="btn btn-primary w-100">Generate Questions</button>
+        </form>
+      </div>
+    </div>
+
+    <div class="text-center mt-3">
+      <a href="/tutor/quizzes/create" class="text-muted small">Prefer to write questions yourself instead? →</a>
+    </div>
+  </div>
+</div>
+
+<script>
+  document.querySelector('form').addEventListener('submit', function () {
+    const btn = document.getElementById('generateBtn');
+    btn.disabled = true;
+    btn.textContent = 'Generating… this can take a few seconds';
+  });
+</script>
+
+<%- include('../partials/footer') %>

@@ -1,0 +1,101 @@
+<%- include('../partials/header') %>
+
+<h2 class="mb-4"><%= quiz && quiz._id ? 'Edit Quiz' : 'Create Quiz' %></h2>
+
+<% if (error) { %>
+  <div class="alert alert-danger"><%= error %></div>
+<% } %>
+
+<form method="POST"
+      action="<%= quiz && quiz._id ? `/tutor/quizzes/${quiz._id}?_method=PUT` : '/tutor/quizzes' %>"
+      id="quizForm">
+
+  <div class="card shadow-sm mb-3">
+    <div class="card-body">
+      <div class="mb-3">
+        <label class="form-label">Quiz Title</label>
+        <input type="text" name="title" class="form-control" required
+               value="<%= quiz && quiz.title ? quiz.title : '' %>">
+      </div>
+      <div class="mb-3">
+        <label class="form-label">Description</label>
+        <textarea name="description" class="form-control" rows="2"><%= quiz && quiz.description ? quiz.description : '' %></textarea>
+      </div>
+      <div class="mb-3 col-md-4">
+        <label class="form-label">Duration (minutes)</label>
+        <input type="number" name="duration" min="1" class="form-control" required
+               value="<%= quiz && quiz.duration ? quiz.duration : '' %>">
+      </div>
+    </div>
+  </div>
+
+  <div class="d-flex justify-content-between align-items-center mb-2">
+    <h4 class="mb-0">Questions</h4>
+    <button type="button" class="btn btn-sm btn-outline-primary" id="addQuestionBtn">+ Add Question</button>
+  </div>
+
+  <div id="questionsContainer"></div>
+
+  <div class="mt-4 d-flex gap-2">
+    <button type="submit" class="btn btn-success">Save Quiz</button>
+    <a href="/tutor/quizzes" class="btn btn-outline-secondary">Cancel</a>
+  </div>
+</form>
+
+<!-- Template for a single question block -->
+<template id="questionTemplate">
+  <div class="card mb-3 question-block">
+    <div class="card-body">
+      <div class="d-flex justify-content-between align-items-start mb-2">
+        <label class="form-label fw-semibold question-number">Question</label>
+        <button type="button" class="btn btn-sm btn-outline-danger remove-question-btn">Remove</button>
+      </div>
+      <div class="mb-3">
+        <input type="text" name="questionText" class="form-control" placeholder="Enter question text" required>
+      </div>
+      <div class="row g-2">
+        <div class="col-md-6">
+          <div class="input-group mb-2">
+            <span class="input-group-text">
+              <input type="radio" name="correctAnswerIndex" value="0" required title="Mark as correct answer">
+            </span>
+            <input type="text" name="option1" class="form-control" placeholder="Option 1" required>
+          </div>
+        </div>
+        <div class="col-md-6">
+          <div class="input-group mb-2">
+            <span class="input-group-text">
+              <input type="radio" name="correctAnswerIndex" value="1" title="Mark as correct answer">
+            </span>
+            <input type="text" name="option2" class="form-control" placeholder="Option 2" required>
+          </div>
+        </div>
+        <div class="col-md-6">
+          <div class="input-group mb-2">
+            <span class="input-group-text">
+              <input type="radio" name="correctAnswerIndex" value="2" title="Mark as correct answer">
+            </span>
+            <input type="text" name="option3" class="form-control" placeholder="Option 3" required>
+          </div>
+        </div>
+        <div class="col-md-6">
+          <div class="input-group mb-2">
+            <span class="input-group-text">
+              <input type="radio" name="correctAnswerIndex" value="3" title="Mark as correct answer">
+            </span>
+            <input type="text" name="option4" class="form-control" placeholder="Option 4" required>
+          </div>
+        </div>
+      </div>
+      <div class="form-text">Select the radio button next to the correct option.</div>
+    </div>
+  </div>
+</template>
+
+<script>
+  // Existing quiz data (if editing) is injected here for the question builder to pre-fill.
+  const existingQuestions = <%- (quiz && quiz.questions) ? JSON.stringify(quiz.questions) : '[]' %>;
+</script>
+<script src="/js/quizForm.js"></script>
+
+<%- include('../partials/footer') %>

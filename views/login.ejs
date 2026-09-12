@@ -1,0 +1,70 @@
+<%- include('partials/header') %>
+
+<div class="row justify-content-center">
+  <div class="col-md-5">
+    <div class="card shadow-sm">
+      <div class="card-body p-4">
+        <ul class="nav nav-pills nav-fill mb-4">
+          <li class="nav-item">
+            <a class="nav-link <%= mode === 'login' ? 'active' : '' %>" href="/login">Login</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link <%= mode === 'register' ? 'active' : '' %>" href="/register">Register</a>
+          </li>
+        </ul>
+
+        <% if (error) { %>
+          <div class="alert alert-danger"><%= error %></div>
+        <% } %>
+
+        <% if (mode === 'login') { %>
+          <h4 class="mb-3">Tutor Login</h4>
+          <form method="POST" action="/login">
+            <div class="mb-3">
+              <label class="form-label">Email</label>
+              <input type="email" name="email" class="form-control" required>
+            </div>
+            <div class="mb-3">
+              <label class="form-label">Password</label>
+              <input type="password" name="password" class="form-control" required>
+            </div>
+            <div class="mb-3 form-check">
+              <input type="checkbox" name="rememberMe" value="1" class="form-check-input" id="rememberMe">
+              <label class="form-check-label" for="rememberMe">Remember me on this device</label>
+            </div>
+            <button type="submit" class="btn btn-primary w-100">Login</button>
+          </form>
+        <% } else { %>
+          <h4 class="mb-3">Tutor Registration</h4>
+          <form method="POST" action="/register">
+            <div class="mb-3">
+              <label class="form-label">Full Name</label>
+              <input type="text" name="name" class="form-control" required>
+            </div>
+            <div class="mb-3">
+              <label class="form-label">Email</label>
+              <input type="email" name="email" class="form-control" required>
+            </div>
+            <div class="mb-3">
+              <label class="form-label">Password</label>
+              <input type="password" name="password" class="form-control" required minlength="6">
+            </div>
+                        <div class="mb-3">
+              <label class="form-label">Confirm Password</label>
+              <input type="password" name="confirmPassword" class="form-control" required minlength="6">
+            </div>
+            <div class="mb-3">
+              <label class="form-label">Tutor signup code</label>
+              <input type="text" name="signupCode" class="form-control" required>
+              <div class="form-text">Ask your institute admin for this code.</div>
+            </div>
+              
+            <button type="submit" class="btn btn-success w-100">Create Tutor Account</button>
+          </form>
+        <% } %>
+      </div>
+    </div>
+  </div>
+</div>
+
+<%- include('partials/footer') %>

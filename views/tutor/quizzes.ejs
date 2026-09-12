@@ -1,0 +1,89 @@
+<%- include('../partials/header') %>
+
+<div class="d-flex justify-content-between align-items-center mb-3">
+  <h2 class="mb-0">My Quizzes</h2>
+  <div>
+    <a href="/tutor/quizzes/generate" class="btn btn-outline-primary me-2">Generate with AI</a>
+    <a href="/tutor/quizzes/create" class="btn btn-primary">+ Create New Quiz</a>
+  </div>
+</div>
+
+<% if (quizzes.length === 0) { %>
+  <div class="alert alert-light border">No quizzes yet. Click "Create New Quiz" to add one.</div>
+<% } else { %>
+  <div class="table-responsive">
+    <table class="table table-hover align-middle">
+      <thead>
+        <tr>
+          <th>Title</th>
+          <th>Questions</th>
+          <th>Duration</th>
+          <th>Status</th>
+          <th>Test code</th>
+          <th class="text-end">Actions</th>
+        </tr>
+      </thead>
+      <tbody>
+        <% quizzes.forEach(quiz => { %>
+          <tr>
+            <td>
+              <div class="fw-semibold"><%= quiz.title %></div>
+              <div class="text-muted small"><%= quiz.description %></div>
+            </td>
+            <td><%= quiz.questions.length %></td>
+            <td><%= quiz.duration %> min</td>
+            <td>
+              <span class="badge <%= quiz.isPublished ? 'bg-success' : 'bg-secondary' %>">
+                <%= quiz.isPublished ? 'Published' : 'Draft' %>
+              </span>
+            </td>
+            <td>
+              <span class="code-chip" data-code="<%= quiz.accessCode %>">
+                <%= quiz.accessCode %>
+                <button type="button" class="copy-code-btn" title="Copy code">Copy</button>
+              </span>
+              <% if (!quiz.isPublished) { %>
+                <div class="text-muted small mt-1">Publish to let students in</div>
+              <% } %>
+            </td>
+            <td class="text-end">
+              <a href="/tutor/quizzes/<%= quiz._id %>/results" class="btn btn-sm btn-outline-primary">Results</a>
+              <a href="/tutor/quizzes/<%= quiz._id %>/edit" class="btn btn-sm btn-outline-secondary">Edit</a>
+
+              <form action="/tutor/quizzes/<%= quiz._id %>/publish?_method=PATCH" method="POST" class="d-inline">
+                <button type="submit" class="btn btn-sm <%= quiz.isPublished ? 'btn-outline-warning' : 'btn-outline-success' %>">
+                  <%= quiz.isPublished ? 'Unpublish' : 'Publish' %>
+                </button>
+              </form>
+
+              <form action="/tutor/quizzes/<%= quiz._id %>/regenerate-code?_method=PATCH" method="POST" class="d-inline"
+                    onsubmit="return confirm('Generate a new code? The old code will stop working.');">
+                <button type="submit" class="btn btn-sm btn-outline-secondary">New code</button>
+              </form>
+
+              <form action="/tutor/quizzes/<%= quiz._id %>?_method=DELETE" method="POST" class="d-inline"
+                    onsubmit="return confirm('Delete this quiz and all its results? This cannot be undone.');">
+                <button type="submit" class="btn btn-sm btn-outline-danger">Delete</button>
+              </form>
+            </td>
+          </tr>
+        <% }) %>
+      </tbody>
+    </table>
+  </div>
+<% } %>
+
+<script>
+  document.querySelectorAll('.copy-code-btn').forEach(function (btn) {
+    btn.addEventListener('click', function () {
+      const code = btn.closest('.code-chip').dataset.code;
+      navigator.clipboard.writeText(code).then(function () {
+        const original = btn.textContent;
+        btn.textContent = 'Copied';
+        setTimeout(function () { btn.textContent = original; }, 1200);
+      });
+    });
+  });
+</script>
+
+<%- include('../partials/footer') %>
