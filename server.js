@@ -24,13 +24,13 @@ app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 app.use(methodOverride('_method')); // allows <form> to send PUT/DELETE/PATCH via ?_method=
 app.use(express.static(path.join(__dirname, 'public')));
-
+const SESSION_MAX_AGE_HOURS = Number(process.env.SESSION_MAX_AGE_HOURS) || 5000; // 7 days
 app.use(session({
   secret: process.env.SESSION_SECRET || 'dev_secret_change_me',
   resave: false,
   saveUninitialized: false,
   store: MongoStore.create({ mongoUrl: MONGO_URI }),
-  cookie: { maxAge: 1000 * 60 * 60 * 4 } // 4 hours
+  cookie: { maxAge: 1000 * 60 * 60 * SESSION_MAX_AGE_HOURS } // 4 hours
 }));
 
 app.use(attachTutorToLocals);
